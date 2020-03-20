@@ -1,0 +1,29 @@
+
+
+name: 'Sort Deploy'
+name: make-commands-action
+author: 'Bryan Killian <me@trilom.org>'
+description: 'This takes 4 inputs, a list of files deleted, modified, and added as well as an environment.  It will output ordered make commands to be ran for deployments of cloudformation stacks.'
+runs:
+  using: 'node12'
+  main:  'dist/index.js'
+branding:
+  icon:  'italic'
+  color: 'gray-dark'
+inputs:
+  files:
+    description: 'Array of names all new, updated, and deleted files'
+    required: true
+    default: '[]'
+  files_added:
+    description: 'Array of the newly created files'
+    required: true
+    default: '[]'
+  files_modified:
+    description: 'Array of the updated files'
+    required: true
+    default: '[]'
+  files_deleted:
+    description: 'Array of the deleted files'
+    required: true
+    default: '[]'

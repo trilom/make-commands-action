@@ -1,0 +1,71 @@
+{
+  "name": "@trilom/create-make-commands",
+  "version": "1.0.0",
+  "engines": {
+    "node": "12.16.1"
+  },
+  "description": "This takes 4 inputs, a list of files deleted, modified, and added as well as an environment.  It will output ordered make commands to be ran for deployments.",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "yarn && tsc",
+    "build-package": "yarn build --build tsconfig.build.json && ncc build",
+    "build-release": "yarn build-package --minify",
+    "test": "jest",
+    "test-coverage": "jest --coverage",
+    "format": "prettier --write '**/*.ts'",
+    "format-check": "prettier --check '**/*.ts'",
+    "lint": "eslint --ext .ts ./",
+    "clean": "rm -rf node_modules lib dist",
+    "clean-old": "cd test/out && rm -rf delete_stacks.json deploy_deploy_commands.json deploys_stacks.json prefix_deploy_commands.json suffix_deploy_commands.json validate_commands.json",
+    "test-old": "node --inspect-brk index.js dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trilom/make-commands-action.git"
+  },
+  "keywords": [
+    "actions",
+    "action",
+    "github-action",
+    "github-actions",
+    "github",
+    "node",
+    "typescript",
+    "examples"
+  ],
+  "author": "Bryan Killian <me@trilom.org>",
+  "homepage": "https://github.com/trilom/make-commands-action#README",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.2.3",
+    "js-yaml": "^3.13.1",
+    "lodash.isequal": "^4.5.0",
+    "lodash.union": "^4.6.0",
+    "lodash.uniq": "^4.5.0",
+    "lodash.uniqwith": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.9.1",
+    "@typescript-eslint/eslint-plugin": "^2.24.0",
+    "@typescript-eslint/parser": "^2.24.0",
+    "@zeit/ncc": "^0.20.5",
+    "codecov": "^3.6.5",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-typescript": "^7.0.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-import-resolver-typescript": "^2.0.0",
+    "eslint-plugin-eslint-comments": "^3.1.2",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^2.5.0",
+    "eslint-plugin-unicorn": "^17.2.0",
+    "jest": "^24.9.0",
+    "jest-circus": "^24.9.0",
+    "prettier": "^1.19.1",
+    "ts-jest": "^24.3.0",
+    "typescript": "^3.8.3"
+  }
+}
