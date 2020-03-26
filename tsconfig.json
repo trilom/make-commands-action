@@ -12,12 +12,8 @@
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "*": [
-        "node_modules/"
-      ],
-      "typings/*": [
-        "src/typings/*"
-      ]
+      "*": ["node_modules/"],
+      "typings/*": ["src/typings/*"]
     }
   },
   "include": [
