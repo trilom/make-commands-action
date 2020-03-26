@@ -9,9 +9,24 @@
   - [Advanced Usage (with order files)](#advanced-usage-with-order-files)
   - [Expert Usage (with order files monorepo)](#expert-usage-with-order-files-monorepo)
   - [Inputs](#inputs)
+    - [deploy](#deploy)
+    - [delete](#delete)
       - [deploy and delete string replacements](#deploy-and-delete-string-replacements)
+    - [files](#files)
+    - [files_added](#files_added)
+    - [files_modified](#files_modified)
+    - [files_removed](#files_removed)
+    - [order](#order)
+    - [order_location](#order_location)
+    - [mapping_location](#mapping_location)
+    - [template_location](#template_location)
+    - [template_nested](#template_nested)
   - [Outputs](#outputs)
     - [commands](#commands)
+    - [deploy](#deploy-1)
+    - [delete](#delete-1)
+    - [prefix](#prefix)
+    - [suffix](#suffix)
   - [Order File Structure](#order-file-structure)
   - [Template File Structure](#template-file-structure)
   - [Mapping File Structure](#mapping-file-structure)
@@ -120,9 +135,17 @@ _Optional_ - `string` - **true**|false
 
 ## Outputs
 
-### commands
+>### commands
 
-steps.make_commands.outputs.commands - string - string of commands object.  Without order it is an object with properties `deploy` and `delete` which are arrays of strings or arrays of arrays of strings. See [Advanced](#advanced-usage-with-order-files) or [Expert](#expert-usage-with-order-files-monorepo) for more output options.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;steps.make_commands.outputs.commands - string - commands object.  
+  
+With order set to **FALSE** (default) it is an object with properties `deploy` and `delete` which are arrays of strings or arrays of arrays of strings.  
+
+With order set to **TRUE** this can be an object with properties `deploy`, `delete`, `prefix`, `suffix`, and `validate` which are array of strings or command objects (`command` and `waitCommand`) or an array of array of strings or command objects.
+
+This is also a file at `{HOME}/commands.json`
+
+See [Advanced](#advanced-usage-with-order-files) or [Expert](#expert-usage-with-order-files-monorepo) for more information on output options.
 
 ```json
 {
@@ -136,6 +159,40 @@ steps.make_commands.outputs.commands - string - string of commands object.  With
     ]
 }
 ```
+
+>### deploy
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;steps.make_commands.outputs.deploy - string - deploy commands array.  
+
+With order set to **FALSE** (default) it is an array of strings or array of arrays of strings.  
+With order set to **TRUE** this can be an array of strings or command objects (`command` and `waitCommand`) or an array of array of strings or command objects.  
+
+This is also a file at `{HOME}/deploy.json`
+
+>### delete
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;steps.make_commands.outputs.delete - string - delete commands array.  
+
+With order set to **FALSE** (default) it is an array of strings or array of arrays of strings.  
+With order set to **TRUE** this can be an array of strings or command objects (`command` and `waitCommand`) or an array of array of strings or command objects.  
+
+This is also a file at `{HOME}/delete.json`
+
+>### prefix
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;steps.make_commands.outputs.prefix - string - prefix commands array.  
+
+With order set to **TRUE** this can be an array of strings or command objects (`command` and `waitCommand`) or an array of array of strings or command objects.  
+
+This is also a file at `{HOME}/prefix.json`
+
+>### suffix
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;steps.make_commands.outputs.suffix - string - suffix commands array.  
+
+With order set to **TRUE** this can be an array of strings or command objects (`command` and `waitCommand`) or an array of array of strings or command objects.  
+
+This is also a file at `{HOME}/suffix.json`
 
 ## Order File Structure
 

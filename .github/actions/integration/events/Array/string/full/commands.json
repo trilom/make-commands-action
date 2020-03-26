@@ -1,0 +1,19 @@
+{
+    "prefix": [
+        "prefix",
+        "prefix2"
+    ],
+    "suffix": [
+        "suffix",
+        "suffix2"
+    ],
+    "deploy": [
+        "deploy",
+        "deploy2"
+    ],
+    "delete": [
+        "delete",
+        "delete2"
+    ],
+    "validate": [ "validate" ]
+}

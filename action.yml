@@ -12,8 +12,35 @@ branding:
 outputs:
   commands:
     description: |
-      Without order it is an object with properties deploy and delete which 
-      are arrays of strings or arrays of arrays of strings.
+      With order set to FALSE (default) it is an object with properties deploy 
+      and delete which are arrays of strings or arrays of arrays of strings.  
+      With order set to TRUE this can be an object with properties deploy, delete,
+      prefix, suffix, and validate which are array of strings or command objects 
+      (command and waitCommand) or an array of array of strings or command objects.
+      Validate is an array of strings.  
+      This is also an object at {HOME}/commands.json
+  deploy:
+    description: |
+      With order set to FALSE (default) it is an array of strings or array of arrays of strings.  
+      With order set to TRUE this can be an array of strings or command objects 
+      (command and waitCommand) or an array of array of strings or command objects.
+      This is also an object at {HOME}/deploy.json
+  delete:
+    description: |
+      With order set to FALSE (default) it is an array of strings or array of arrays of strings.  
+      With order set to TRUE this can be an array of strings or command objects 
+      (command and waitCommand) or an array of array of strings or command objects.
+      This is also an object at {HOME}/delete.json
+  prefix:
+    description: |
+      With order set to TRUE this can be an array of strings or command objects 
+      (command and waitCommand) or an array of array of strings or command objects.
+      This is also an object at {HOME}/prefix.json
+  suffix:
+    description: |
+      With order set to TRUE this can be an array of strings or command objects 
+      (command and waitCommand) or an array of array of strings or command objects.
+      This is also an object at {HOME}/suffix.json
 inputs:
   deploy:
     description: |

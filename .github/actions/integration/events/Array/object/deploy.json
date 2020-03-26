@@ -1,0 +1,6 @@
+[
+    {
+        "command": "deploy",
+        "waitCommand": "deploy_wait"
+    }
+]

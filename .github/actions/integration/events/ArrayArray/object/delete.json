@@ -1,0 +1,10 @@
+[
+        [{
+            "command": "delete",
+            "waitCommand": "delete_wait"
+        }],
+        [{
+            "command": "delete2",
+            "waitCommand": "delete2_wait"
+        }]
+    ]

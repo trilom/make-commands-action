@@ -1,26 +1,26 @@
 export interface Order {
-  commands: {
-    wait: string | OrderOption | undefined
-    validate: string | OrderOption | undefined
-    deploy: string | ActionOption | undefined
-    delete: string | ActionOption | undefined
-  } | undefined
-  prefix: {
-    default: LifecycleCommand[] | LifecycleCommand[][] | undefined
+  commands?: {
+    wait?: string | OrderOption
+    validate?: string | OrderOption
+    deploy?: string | ActionOption
+    delete?: string | ActionOption
+  }
+  prefix?: {
+    default?: LifecycleCommand[] | LifecycleCommand[][]
     [key:string]: LifecycleCommand[] | LifecycleCommand[][] | undefined
-  } | undefined
-  suffix: {
-    default: LifecycleCommand[] | LifecycleCommand[][] | undefined
+  }
+  suffix?: {
+    default?: LifecycleCommand[] | LifecycleCommand[][]
     [key:string]: LifecycleCommand[] | LifecycleCommand[][] | undefined
-  } | undefined
-  deploy: {
-    default: string[] | string[][] | undefined
+  }
+  deploy?: {
+    default?: string[] | string[][]
     [key:string]: string[] | string[][] | undefined
-  } | undefined
-  delete: {
-    default: string[] | string[][] | undefined
+  }
+  delete?: {
+    default?: string[] | string[][]
     [key:string]: string[] | string[][] | undefined
-  } | undefined
+  }
 }
 
 
@@ -34,8 +34,8 @@ export interface Order {
 interface LifecycleCommand {
   role: string
   action: string
-  validate: string | undefined
-  wait: string | undefined
+  validate?: string
+  wait?: string
 }
 //
 /**
@@ -47,8 +47,8 @@ interface LifecycleCommand {
  */
 interface OrderOption {
   default: string
-  deploy: string | Toggle | undefined
-  delete: string | Toggle | undefined
+  deploy?: string | Toggle
+  delete?: string | Toggle
   [key:string]: string | Toggle | undefined
 }
 
@@ -60,9 +60,9 @@ interface OrderOption {
  * @param [key:string] toggle specific branch
  */
 interface Toggle {
-  default: boolean | undefined
-  prefix: boolean | undefined
-  suffix: boolean | undefined
+  default?: boolean
+  prefix?: boolean
+  suffix?: boolean
   [key:string]: boolean | undefined
 } 
 
@@ -85,9 +85,9 @@ interface LifecycleOption {
  */
 interface ActionOption {
   default: string
-  prefix: string | LifecycleOption | undefined
-  suffix: string | LifecycleOption | undefined
-  wait: string | LifecycleOption | undefined
+  prefix?: string | LifecycleOption
+  suffix?: string | LifecycleOption
+  wait?: string | LifecycleOption
   [key:string]: string | LifecycleOption | undefined
 }
 

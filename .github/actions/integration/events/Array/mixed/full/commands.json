@@ -1,0 +1,31 @@
+{
+    "prefix": [
+        {
+            "command": "prefix",
+            "waitCommand": "prefix_wait"
+        },
+        "prefix2"
+    ],
+    "suffix": [
+        "suffix",
+        {
+            "command": "suffix2",
+            "waitCommand": "suffix2_wait"
+        }
+    ],
+    "deploy": [
+        {
+            "command": "deploy",
+            "waitCommand": "deploy_wait"
+        },
+        "deploy2"
+    ],
+    "delete": [
+        "delete",
+        {
+            "command": "delete2",
+            "waitCommand": "delete2_wait"
+        }
+    ],
+    "validate": [ "validate" ]
+}

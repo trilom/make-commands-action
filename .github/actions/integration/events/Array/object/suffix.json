@@ -1,0 +1,6 @@
+[
+    {
+        "command": "suffix",
+        "waitCommand": "suffix_wait"
+    }
+]

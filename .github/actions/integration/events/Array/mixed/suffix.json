@@ -1,0 +1,7 @@
+[
+    "suffix",
+    {
+        "command": "suffix2",
+        "waitCommand": "suffix2_wait"
+    }
+]

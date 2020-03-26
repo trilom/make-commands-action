@@ -1,0 +1,55 @@
+{
+    "prefix": [
+        [{
+            "command": "prefix",
+            "waitCommand": "prefix_wait"
+        },
+        "prefix2"],
+        [
+            "prefix3",
+        {
+            "command": "prefix4",
+            "waitCommand": "prefix4_wait"
+        }]
+    ],
+    "suffix": [
+        [
+            "suffix",
+        {
+            "command": "suffix2",
+            "waitCommand": "suffix2_wait"
+        }],
+        [{
+            "command": "suffix3",
+            "waitCommand": "suffix3_wait"
+        },
+        "suffix4"]
+    ],
+    "deploy": [
+        [{
+            "command": "deploy",
+            "waitCommand": "deploy_wait"
+        },
+        "deploy2"],
+        [
+            "deploy3",
+        {
+            "command": "deploy4",
+            "waitCommand": "deploy4_wait"
+        }]
+    ],
+    "delete": [
+        [
+            "delete",
+        {
+            "command": "delete2",
+            "waitCommand": "delete2_wait"
+        }],
+        [{
+            "command": "delete3",
+            "waitCommand": "delete3_wait"
+        },
+        "delete4"]
+    ],
+    "validate": [ "validate" ]
+}
