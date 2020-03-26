@@ -1,5 +1,5 @@
 export enum coreLog {
-  debug= 'debug',
+  debug = 'debug',
   info = 'info',
   warn = 'warning',
   warning = 'warning',
@@ -7,7 +7,7 @@ export enum coreLog {
   critical = 'error'
 }
 export enum consoleLog {
-  debug= 'log',
+  debug = 'log',
   info = 'info',
   warn = 'warn',
   warning = 'warn',
