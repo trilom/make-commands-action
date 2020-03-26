@@ -152,7 +152,7 @@ deploy:
 ```yaml
 commands:
   wait:
-    command: 'make wait template={{PRODUCT}}-{{ROLE}} env={{BRANCH}}'
+    default: 'make wait template={{PRODUCT}}-{{ROLE}} env={{BRANCH}}'
     deploy:
       default: true
       prefix: false
