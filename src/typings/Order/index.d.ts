@@ -7,22 +7,21 @@ export interface Order {
   }
   prefix?: {
     default?: LifecycleCommand[] | LifecycleCommand[][]
-    [key:string]: LifecycleCommand[] | LifecycleCommand[][] | undefined
+    [key: string]: LifecycleCommand[] | LifecycleCommand[][] | undefined
   }
   suffix?: {
     default?: LifecycleCommand[] | LifecycleCommand[][]
-    [key:string]: LifecycleCommand[] | LifecycleCommand[][] | undefined
+    [key: string]: LifecycleCommand[] | LifecycleCommand[][] | undefined
   }
   deploy?: {
     default?: string[] | string[][]
-    [key:string]: string[] | string[][] | undefined
+    [key: string]: string[] | string[][] | undefined
   }
   delete?: {
     default?: string[] | string[][]
-    [key:string]: string[] | string[][] | undefined
+    [key: string]: string[] | string[][] | undefined
   }
 }
-
 
 /**
  * @interface LifecycleCommand
@@ -49,7 +48,7 @@ interface OrderOption {
   default: string
   deploy?: string | Toggle
   delete?: string | Toggle
-  [key:string]: string | Toggle | undefined
+  [key: string]: string | Toggle | undefined
 }
 
 /**
@@ -63,8 +62,8 @@ interface Toggle {
   default?: boolean
   prefix?: boolean
   suffix?: boolean
-  [key:string]: boolean | undefined
-} 
+  [key: string]: boolean | undefined
+}
 
 /**
  * @interface LifecycleOption
@@ -73,13 +72,13 @@ interface Toggle {
  */
 interface LifecycleOption {
   default: string
-  [key:string]: string | undefined
+  [key: string]: string | undefined
 }
 
 /**
  * @interface ActionOption
  * @param default default command string
- * @param prefix string command to run for prefix 
+ * @param prefix string command to run for prefix
  * @param suffix string command to run for suffix
  * @param [key:string] command for specific branch
  */
@@ -88,7 +87,5 @@ interface ActionOption {
   prefix?: string | LifecycleOption
   suffix?: string | LifecycleOption
   wait?: string | LifecycleOption
-  [key:string]: string | LifecycleOption | undefined
+  [key: string]: string | LifecycleOption | undefined
 }
-
-
