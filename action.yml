@@ -110,4 +110,8 @@ inputs:
       enabled we will assume templates are located at template_location/PRODUCT-ROLE.yml instead
     required: true
     default: 'true'
-
+  branch:
+    description: |
+      To use a branch other than the branch that was triggered with this action.
+    required: true
+    default: ${{ github.ref }}

@@ -2,7 +2,7 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: "node",
   testRunner: 'jest-circus/runner',
-  testMatch: ['**/*.test.ts', '**/*.test.js'],
+  testMatch: ['**/*.test.ts'],
   clearMocks: true,
   collectCoverage: false,
   coverageThreshold: {
@@ -18,19 +18,7 @@ module.exports = {
       lines: 85,
       statements: 85
     },
-    './src/*.js': {
-      branches: 70,
-      functions: 85,
-      lines: 85,
-      statements: 85
-    },
     './src/tests/**/*.ts': {
-      branches: 50,
-      functions: 60,
-      lines: 65,
-      statements: 65
-    },
-    './src/tests/**/*.js': {
       branches: 50,
       functions: 60,
       lines: 65,

@@ -57,8 +57,10 @@ parserOptions:
 env:
   node: true
   browser: true
+ignorePatterns:
+  - '*.js'
 overrides:
-  - files: ['src/tests/**/*']
+  - files: ['src/tests/**/*.ts']
     plugins:
       - jest
     extends:
