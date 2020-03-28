@@ -11,8 +11,8 @@ describe('Testing UtilsHelper.ts with push event...', () => {
     env = new Env({}, {})
   })
   /**
-     * @function getErrorString
-     */
+   * @function getErrorString
+   */
   describe('...with function getErrorString...', () => {
     it('...can throw an error', () => {
       const error = require('../UtilsHelper').getErrorString()
@@ -49,8 +49,8 @@ describe('Testing UtilsHelper.ts with push event...', () => {
     })
   })
   /**
-     * @function errorMessage
-     */
+   * @function errorMessage
+   */
   describe('...with function errorMessage...', () => {
     it.each(getTestEvents(p.errorMessageInputs, 'push'))(
       '...for function %s',

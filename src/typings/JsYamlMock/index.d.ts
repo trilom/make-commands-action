@@ -1,4 +1,3 @@
-
 import {LoadOptions} from 'js-yaml'
 
 export interface JsYamlMock {

@@ -4,8 +4,8 @@ let env: Env
 
 describe('Testing main.ts...', () => {
   /**
-     * @function run
-     */
+   * @function run
+   */
   describe('...with function run...', () => {
     beforeEach(() => {
       env = new Env(
@@ -47,5 +47,4 @@ describe('Testing main.ts...', () => {
       }
     )
   })
-
 })

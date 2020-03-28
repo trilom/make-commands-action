@@ -14,11 +14,13 @@ describe('Testing InputHelper.ts with push event...', () => {
     env = new Env({}, p.defInputs)
   })
   /**
-     * @function getFiles
-     */
+   * @function getFiles
+   */
   describe('...with function getFiles...', () => {
-    it('...returns original files if length !== 0..', () =>{
-      const files = require('../InputHelper').getFiles('/any/path',['/any/string'])
+    it('...returns original files if length !== 0..', () => {
+      const files = require('../InputHelper').getFiles('/any/path', [
+        '/any/string'
+      ])
       expect(files).toBe(files)
     })
     it('...throws error with bad path...', () => {
@@ -35,8 +37,8 @@ describe('Testing InputHelper.ts with push event...', () => {
     })
   })
   /**
-     * @function getInputs
-     */
+   * @function getInputs
+   */
   describe('...with function getInputs...', () => {
     it('...sets correct default input parameters.', () => {
       const {
@@ -53,7 +55,11 @@ describe('Testing InputHelper.ts with push event...', () => {
         modified: defFiles,
         removed: defFiles
       })
-      expect(options).toStrictEqual({order: false, nested: true, branch: 'master'})
+      expect(options).toStrictEqual({
+        order: false,
+        nested: true,
+        branch: 'master'
+      })
       expect(location).toStrictEqual({
         order: `${env.envDefault.GITHUB_WORKSPACE}/infrastructure/order`,
         mapping: `${env.envDefault.GITHUB_WORKSPACE}/infrastructure/mappings`,
@@ -66,7 +72,7 @@ describe('Testing InputHelper.ts with push event...', () => {
       const {getInput} = require('@actions/core')
       expect(() => {
         require('../InputHelper').getInputs()
-      }).toThrowError() 
+      }).toThrowError()
       expect(getInput).toHaveBeenCalledTimes(3)
     })
     it.each(getTestEvents(p.getInputsInputs, 'push'))(

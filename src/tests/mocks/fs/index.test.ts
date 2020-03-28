@@ -24,13 +24,21 @@ describe('Testing FsMock object...', () => {
     let file = fs.readFileSync('/order/', 'b')
     expect(file).toBe('YAML')
     file = fs.readFileSync('/path/files_modified.json', 'b')
-    expect(file).toBe("[\"test/test1.yaml\",\"test/test2.yaml\",\"test2/test1.yaml\"]")
+    expect(file).toBe(
+      '["test/test1.yaml","test/test2.yaml","test2/test1.yaml"]'
+    )
     file = fs.readFileSync('/path/files_added.json', 'b')
-    expect(file).toBe("[\"test/test1.yaml\",\"test/test2.yaml\",\"test2/test1.yaml\"]")
+    expect(file).toBe(
+      '["test/test1.yaml","test/test2.yaml","test2/test1.yaml"]'
+    )
     file = fs.readFileSync('/path/files_removed.json', 'b')
-    expect(file).toBe("[\"test/test1.yaml\",\"test/test2.yaml\",\"test2/test1.yaml\"]")
+    expect(file).toBe(
+      '["test/test1.yaml","test/test2.yaml","test2/test1.yaml"]'
+    )
     file = fs.readFileSync('/path/files.json', 'b')
-    expect(file).toBe("[\"test/test1.yaml\",\"test/test2.yaml\",\"test2/test1.yaml\"]")
+    expect(file).toBe(
+      '["test/test1.yaml","test/test2.yaml","test2/test1.yaml"]'
+    )
   })
   it('...FsMock mocks readFileSync error', async () => {
     expect(() => fs.readFileSync('error', 'b')).toThrowError(

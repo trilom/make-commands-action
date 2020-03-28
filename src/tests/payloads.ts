@@ -56,8 +56,8 @@ export const normalFileArray: string[] = [
 /**
  * InputHelper Test Inputs
  */
-const testFiles = ["input/test1.yaml","input/test2.yaml"]
-const testFilesString ='"["input/test1.yaml","input/test2.yaml"]"'
+const testFiles = ['input/test1.yaml', 'input/test2.yaml']
+const testFilesString = '"["input/test1.yaml","input/test2.yaml"]"'
 export const getInputsInputs: TestInput[] = [
   {
     inputs: ['deploy', 'delete', 'delete'],
@@ -92,11 +92,7 @@ export const getInputsInputs: TestInput[] = [
     events: 'all'
   },
   {
-    inputs: [
-      'mapping_location',
-      'input/mappings',
-      '/workspace/input/mappings'
-    ],
+    inputs: ['mapping_location', 'input/mappings', '/workspace/input/mappings'],
     events: 'all'
   },
   {
@@ -143,11 +139,7 @@ export const errorMessageInputs: TestInput[] = [
   {
     inputs: [
       'other',
-      JSON.stringify(
-        {name: 'Error', message: 'Error', from: 'other'},
-        null,
-        2
-      ),
+      JSON.stringify({name: 'Error', message: 'Error', from: 'other'}, null, 2),
       undefined
     ],
     events: 'all'

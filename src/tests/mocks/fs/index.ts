@@ -6,35 +6,39 @@ const fsMock = {
       throw new Error(JSON.stringify({name: 'PathError', status: '500'}))
     // console.log(`fs.writeFileSync triggered with path: ${path} data: ${data} options: ${options}`)
   }),
-  readFileSync: jest.fn((path, options ) => {
+  readFileSync: jest.fn((path, options) => {
     let file = ''
-    if (path.includes('order'))
-      file = 'YAML' // return order file
+    if (path.includes('order')) file = 'YAML' // return order file
     if (
       path.includes(`files_added.json`) ||
       path.includes(`files_modified.json`) ||
       path.includes(`files_removed.json`) ||
       path.includes('files.json')
     )
-      file = JSON.stringify(['test/test1.yaml','test/test2.yaml', 'test2/test1.yaml']) // return array of files
+      file = JSON.stringify([
+        'test/test1.yaml',
+        'test/test2.yaml',
+        'test2/test1.yaml'
+      ]) // return array of files
     if (path.includes(`error`))
       throw new Error(JSON.stringify({name: 'PathError', status: '500'}))
     return file
   }),
-  readdirSync: jest.fn((path) => {
+  readdirSync: jest.fn(path => {
     let dir = []
     if (path.includes('order'))
-      dir = ['/order/order.yaml', '/order/order2.yaml'] // return list of order files
+      dir = ['/order/order.yaml', '/order/order2.yaml']
+    // return list of order files
     else if (path.includes('templates'))
-      dir = ['/templates/template.yaml', '/templates/template2.yaml'] // return list of template files
+      dir = ['/templates/template.yaml', '/templates/template2.yaml']
+    // return list of template files
     else if (path.includes(`error`))
       throw new Error(JSON.stringify({name: 'PathError', status: '500'}))
     else dir = ['/file.yaml', '/file2.yaml']
     return dir
   }),
-  existsSync: jest.fn((path) => {
-    if (path.includes(`false`))
-      return false
+  existsSync: jest.fn(path => {
+    if (path.includes(`false`)) return false
     if (path.includes(`error`))
       throw new Error(JSON.stringify({name: 'PathError', status: '500'}))
     return true
