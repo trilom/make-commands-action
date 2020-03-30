@@ -6,6 +6,7 @@
 
 - [make-commands-action](#make-commands-action)
   - [Simple Usage _default_ (without order files)](#simple-usage-default-without-order-files)
+    - [Simple Usage (with order file)](#simple-usage-with-order-file)
   - [Advanced Usage (with order files)](#advanced-usage-with-order-files)
   - [Expert Usage (with order files monorepo)](#expert-usage-with-order-files-monorepo)
   - [Inputs](#inputs)
@@ -21,8 +22,9 @@
     - [mapping_location](#mapping_location)
     - [template_location](#template_location)
     - [template_nested](#template_nested)
+    - [branch](#branch)
   - [Outputs](#outputs)
-    - [commands](#commands)
+    - [output](#output)
     - [deploy](#deploy-1)
     - [delete](#delete-1)
     - [prefix](#prefix)
@@ -49,11 +51,73 @@ jobs:
       - id: file_changes
         uses: trilom/make-commands-action@master
         with:
-          files_added: '["infrastructure/templates/facebook/web.yaml"]'
-          files_deleted: '["infrastructure/templates/facebook/database.yaml"]'
-          files_modified: '["infrastructure/templates/facebook/sso.yaml"]'
-          deploy: make deploy ENV={{BRANCH}} TEMPLATE={{PATH}}
+          files_added: '["infrastructure/templates/simple/web.yaml"]'
+          files_deleted: '["infrastructure/templates/simple/database.yaml"]'
+          files_modified: '["infrastructure/templates/simple/sso.yaml", "infrastructure/templates/simple/email.yaml"]'
+          deploy: make deploy PRODUCT={{PRODUCT}} ROLE={{ROLE}}
           delete: make delete ROLE={{ROLE}}
+```
+
+Will output a JSON object as follows for **any** branch:
+
+```json
+{
+    "delete": ["make delete ROLE=database"],
+    "deploy": [
+        "make deploy PRODUCT=simple ROLE=sso",
+        "make deploy PRODUCT=simple ROLE=web",
+        "make deploy PRODUCT=simple ROLE=email"
+    ]
+}
+```
+
+### Simple Usage (with order file)
+
+Suppose you want to deploy sso and web at the same time?  
+
+```yaml
+name: changes
+on: push
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    steps:
+      - id: file_changes
+        uses: trilom/make-commands-action@master
+        with:
+          files_added: '["infrastructure/templates/simple/web.yaml"]'
+          files_deleted: '["infrastructure/templates/simple/database.yaml"]'
+          files_modified: '["infrastructure/templates/simple/sso.yaml", "infrastructure/templates/simple/email.yaml"]'
+          order: true
+```
+
+> **You could add an order file at infrastructure/order/simple.yaml**
+
+```yaml
+commands:
+  delete: make delete ROLE={{ROLE}}
+  deploy: make deploy ENV={{BRANCH}} TEMPLATE={{PATH}}
+deploy:
+  master:
+    - database
+    - email
+    -
+      - web
+      - sso
+```
+
+Will output a JSON object as follows for the **master** branch **only**:
+
+```json
+{
+    "delete": ["make delete ROLE=database"],
+    "deploy": [
+      "make deploy ENV=master TEMPLATE=infrastructure/templates/simple/email.yaml",
+      [
+        "make deploy ENV=master TEMPLATE=infrastructure/templates/simple/sso.yaml",
+        "make deploy ENV=master TEMPLATE=infrastructure/templates/simple/web.yaml"
+    ]]
+}
 ```
 
 ## [Advanced Usage (with order files)](examples/ADVANCED.md)
@@ -134,32 +198,24 @@ _Optional_ - `string` - **infrastructure/templates**
 _Optional_ - `string` - **true**|false  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To use nested template paths default is **true**.  By default we assume a template is located in **template_location**/_PRODUCT_/_ROLE_.yml  With this enabled we will assume templates are located at **template_location**/_PRODUCT_-_ROLE_.yml instead
 
+>### branch
+
+_Optional_ - `string` - **github.ref**
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To use a branch other than the branch that was triggered with this action.
+
 ## Outputs
 
->### commands
+>### output
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;steps.make_commands.outputs.commands - string - commands object.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;steps.make_commands.outputs.output - string - commands object.  
   
 With order set to **FALSE** (default) it is an object with properties `deploy` and `delete` which are arrays of strings or arrays of arrays of strings.  
 
 With order set to **TRUE** this can be an object with properties `deploy`, `delete`, `prefix`, `suffix`, and `validate` which are array of strings or command objects (`command` and `waitCommand`) or an array of array of strings or command objects.
 
-This is also a file at `{HOME}/commands.json`
+This is also a file at `{HOME}/output.json`
 
 See [Advanced](#advanced-usage-with-order-files) or [Expert](#expert-usage-with-order-files-monorepo) for more information on output options.
-
-```json
-{
-    "delete": ["make notify user=trilom"],
-    "deploy": [
-        [
-            "make deploy template=facebook-sso env=master"
-        ],
-        "make deploy template=facebook-database env=master",
-        "make deploy template=facebook-web env=master"
-    ]
-}
-```
 
 >### deploy
 

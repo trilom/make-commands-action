@@ -1,5 +1,4 @@
 lib
-**/outputs/**
 # Dependency directory
 node_modules
 
