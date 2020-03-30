@@ -1,0 +1,10 @@
+[
+    ".github/actions/integration/workspace/false/templates/simple/web.yaml",
+    ".github/actions/integration/workspace/false/templates/simple/sso.yaml",
+    ".github/actions/integration/workspace/false/templates/simple/database.yaml",
+    ".github/actions/integration/workspace/false/templates/simple/email.yaml",
+    ".github/actions/integration/workspace/false/templates/simple-web.yaml",
+    ".github/actions/integration/workspace/false/templates/simple-sso.yaml",
+    ".github/actions/integration/workspace/false/templates/simple-database.yaml",
+    ".github/actions/integration/workspace/false/templates/simple-email.yaml"
+]

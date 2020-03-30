@@ -1,6 +1,0 @@
-[
-    {
-        "command": "prefix",
-        "waitCommand": "prefix_wait"
-    }
-]

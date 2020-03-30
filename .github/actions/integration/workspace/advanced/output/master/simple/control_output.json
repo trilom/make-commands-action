@@ -1,0 +1,42 @@
+{
+    "delete": [
+        {
+            "command": "simple-master",
+            "waitCommand": "simple"
+        }
+    ],
+    "deploy": [
+        {
+            "command": "simple",
+            "waitCommand": "simple"
+        },
+        [
+            {
+                "command": "simple",
+                "waitCommand": "simple"
+            },
+            {
+                "command": "simple",
+                "waitCommand": "simple"
+            }
+        ]
+    ],
+    "prefix": [
+        {
+            "command": "simple-prefix-master",
+            "waitCommand": "simple"
+        }
+    ],
+    "suffix": [
+        {
+            "command": "simple-suffix-master",
+            "waitCommand": "simple"
+        }
+    ],
+    "validate": [
+        "simple",
+        "simple",
+        "simple",
+        "simple"
+    ]
+}

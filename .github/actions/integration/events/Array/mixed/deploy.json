@@ -1,7 +1,0 @@
-[
-    {
-        "command": "deploy",
-        "waitCommand": "deploy_wait"
-    },
-    "deploy2"
-]

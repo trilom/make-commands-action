@@ -1,0 +1,5 @@
+{
+    "deploy": [
+        "make deploy PRODUCT=complex ROLE=email"
+    ]
+}

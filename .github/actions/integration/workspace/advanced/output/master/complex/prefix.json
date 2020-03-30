@@ -1,0 +1,6 @@
+[
+    {
+        "command": "make delete role=database",
+        "waitCommand": "make wait template=complex-database env=master"
+    }
+]

@@ -1,0 +1,6 @@
+[
+    {
+        "command": "make deploy template=complex-web env=develop",
+        "waitCommand": "make wait template=complex-web env=develop"
+    }
+]

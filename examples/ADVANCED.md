@@ -25,18 +25,18 @@ Consider the tree:
 ./
 ├── infrastructure
 │   ├── order
-│   │   └── facebook.yaml
+│   │   └── advanced.yaml
 │   ├── mappings
-│   │   └── facebook.yaml
+│   │   └── advanced.yaml
 │   ├── templates
-│   │   ├── facebook
+│   │   ├── advanced
 │   │   │   ├── database.yaml
 │   │   │   ├── web.yaml
 │   │   │   └── sso.yaml
 ```
 
 And order file:
-> infrastructure/order/facebook.yaml
+> infrastructure/order/advanced.yaml
 
 ```yaml
 commands:
@@ -75,10 +75,10 @@ suffix:
 And input changed files:
 
 ```json
-files = ["infrastructure/templates/facebook/web.yaml", "infrastructure/templates/facebook/sso.yaml", "infrastructure/templates/facebook/database.yaml", "infrastructure/templates/facebook/email.yaml"]
-files_added = ["infrastructure/templates/facebook/database.yaml"]
-files_modified = ["infrastructure/templates/facebook/web.yaml", "infrastructure/templates/facebook/sso.yaml"]
-files_deleted = ["infrastructure/templates/facebook/email.yaml"]
+files = ["infrastructure/templates/advanced/web.yaml", "infrastructure/templates/advanced/sso.yaml", "infrastructure/templates/advanced/database.yaml", "infrastructure/templates/advanced/email.yaml"]
+files_added = ["infrastructure/templates/advanced/database.yaml"]
+files_modified = ["infrastructure/templates/advanced/web.yaml", "infrastructure/templates/advanced/sso.yaml"]
+files_deleted = ["infrastructure/templates/advanced/email.yaml"]
 ```
 
 It will output a JSON object as follows for the **master** branch:
@@ -88,33 +88,33 @@ It will output a JSON object as follows for the **master** branch:
     "suffix": [
         {
             "command": "make create role=database",
-            "waitCommand": "make wait template=facebook-database env=master"}],
+            "waitCommand": "make wait template=advanced-database env=master"}],
     "prefix": [
         {
             "command": "make delete role=database",
-            "waitCommand": "make wait template=facebook-database env=master"}],
+            "waitCommand": "make wait template=advanced-database env=master"}],
     "delete": [
         {
             "command": "make notify user=trilom",
-            "waitCommand": "make wait template=facebook-email env=master"}],
+            "waitCommand": "make wait template=advanced-email env=master"}],
     "deploy": [
         {
-            "command": "make deploy template=facebook-database env=master",
-            "waitCommand": "make wait template=facebook-database env=master"},
+            "command": "make deploy template=advanced-database env=master",
+            "waitCommand": "make wait template=advanced-database env=master"},
         [
             {
-                "command": "make deploy template=facebook-web env=master",
-                "waitCommand": "make wait template=facebook-web env=master"},
+                "command": "make deploy template=advanced-web env=master",
+                "waitCommand": "make wait template=advanced-web env=master"},
             {
-                "command": "make deploy template=facebook-sso env=master",
-                "waitCommand": "make wait template=facebook-sso env=master"}
+                "command": "make deploy template=advanced-sso env=master",
+                "waitCommand": "make wait template=advanced-sso env=master"}
         ]
     ],
     "validate": [
-        "make validate template=facebook-database env=master",
-        "make validate template=facebook-email env=master",
-        "make validate template=facebook-web env=master",
-        "make validate template=facebook-sso env=master"
+        "make validate template=advanced-database env=master",
+        "make validate template=advanced-email env=master",
+        "make validate template=advanced-web env=master",
+        "make validate template=advanced-sso env=master"
     ]
 }
 ```
@@ -125,10 +125,10 @@ But will output this for the **develop** branch:
 {
     "deploy": [
             {
-                "command": "make deploy template=facebook-web env=develop",
-                "waitCommand": "make wait template=facebook-web env=develop"}],
+                "command": "make deploy template=advanced-web env=develop",
+                "waitCommand": "make wait template=advanced-web env=develop"}],
     "validate": [
-        "make validate template=facebook-web env=master"
+        "make validate template=advanced-web env=master"
     ]
 }
 ```

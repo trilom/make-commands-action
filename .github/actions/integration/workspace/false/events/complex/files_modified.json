@@ -1,0 +1,6 @@
+[
+    ".github/actions/integration/workspace/false/templates/complex/web.yaml",
+    ".github/actions/integration/workspace/false/templates/complex/sso.yaml",
+    ".github/actions/integration/workspace/false/templates/complex-web.yaml",
+    ".github/actions/integration/workspace/false/templates/complex-sso.yaml"
+]

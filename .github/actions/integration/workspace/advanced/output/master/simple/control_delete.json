@@ -1,0 +1,6 @@
+[
+    {
+        "command": "simple-master",
+        "waitCommand": "simple"
+    }
+]

@@ -1,0 +1,5 @@
+[
+    "make deploy PRODUCT=complex ROLE=sso",
+    "make deploy PRODUCT=complex ROLE=web",
+    "make deploy PRODUCT=complex ROLE=email"
+]
