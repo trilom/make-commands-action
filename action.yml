@@ -41,6 +41,10 @@ outputs:
       With order set to TRUE this can be an array of strings or command objects 
       (command and waitCommand) or an array of array of strings or command objects.
       This is also an object at {HOME}/suffix.json
+  validate:
+    description: |
+      With order set to TRUE this can be an array of strings.
+      This is also an object at {HOME}/validate.json
 inputs:
   deploy:
     description: |
@@ -75,7 +79,7 @@ inputs:
     required: true
     default: '[]'
   order:
-    description: | 
+    description: |
       To use order files default is false, assumes default path of infrastructure/order 
       (set by order_location input) for yaml/yml files.
     required: true

@@ -27,6 +27,7 @@
     - [delete](#delete-1)
     - [prefix](#prefix)
     - [suffix](#suffix)
+    - [validate](#validate)
   - [Order File Structure](#order-file-structure)
   - [Template File Structure](#template-file-structure)
   - [Mapping File Structure](#mapping-file-structure)
@@ -193,6 +194,13 @@ This is also a file at `{HOME}/prefix.json`
 With order set to **TRUE** this can be an array of strings or command objects (`command` and `waitCommand`) or an array of array of strings or command objects.  
 
 This is also a file at `{HOME}/suffix.json`
+
+>### validate
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;steps.make_commands.outputs.validate - string - validate string array.  
+With order set to TRUE this can be an array of strings.
+
+This is also a file at `{HOME}/validate.json`
 
 ## Order File Structure
 
