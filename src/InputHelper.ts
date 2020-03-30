@@ -1,24 +1,8 @@
 import {getInput as coreGetInput} from '@actions/core'
-import {readFileSync} from 'fs'
 import {resolve} from 'path'
 import {Inputs} from 'typings/Inputs'
+import {getFiles} from './FileHelper'
 import {getErrorString} from './UtilsHelper'
-
-/**
- * @function getFiles
- * @param path path to get files for
- * @param files original files array, will return this if length !== 0
- * @returns {string[]} files to use either read from FS or from input
- */
-export function getFiles(path: string, files: string[]): string[] {
-  try {
-    if (files.length === 0)
-      return JSON.parse(readFileSync(resolve(path), 'utf8'))
-    return files
-  } catch (error) {
-    throw new Error(JSON.stringify({name: 'getFiles Error', error}))
-  }
-}
 
 /**
  * @function getInputs
@@ -27,9 +11,9 @@ export function getFiles(path: string, files: string[]): string[] {
  */
 export function getInputs(): Inputs {
   const input = {} as Inputs
+  const home = process.env.HOME
+  const workspace = process.env.GITHUB_WORKSPACE
   try {
-    const home = process.env.HOME
-    const workspace = process.env.GITHUB_WORKSPACE
     input.commands = {
       deploy: coreGetInput('deploy'),
       delete: coreGetInput('delete')
@@ -62,16 +46,16 @@ export function getInputs(): Inputs {
       ]
     ]) as any
     input.options = {
+      locations:{
+        order: resolve(`${workspace}/${coreGetInput('order_location')}`),
+        mapping: resolve(`${workspace}/${coreGetInput('mapping_location')}`),
+        template: resolve(`${workspace}/${coreGetInput('template_location')}`)
+      },
       order: coreGetInput('order') === 'true' || false,
       nested: coreGetInput('template_nested') === 'true' || false,
       branch: coreGetInput('branch').includes('refs/pull')
         ? 'default'
         : coreGetInput('branch').replace('refs/heads/', '')
-    }
-    input.location = {
-      order: resolve(`${workspace}/${coreGetInput('order_location')}`),
-      mapping: resolve(`${workspace}/${coreGetInput('mapping_location')}`),
-      template: resolve(`${workspace}/${coreGetInput('template_location')}`)
     }
     return input as Inputs
   } catch (error) {
