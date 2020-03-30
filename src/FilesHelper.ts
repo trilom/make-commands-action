@@ -91,13 +91,12 @@ export function getProducts(files: InputFiles, options: InputOptions): Products 
   */
 export function getOrder (path: PathLike): Order {
   let orderObj:Order = {}
-  readFile(resolve(path.toString()), 'utf8', (error, file) => {
+  readFile(resolve(`${process.env.GITHUB_WORKSPACE}/${path.toString()}`), 'utf8', (error, file) => {
     if (error)
       throw new Error(JSON.stringify({name: 'getOrder readFile Error', error, path, file}))
     const order = safeLoad(file) as Order
-    if (typeof order !== 'object') {
+    if (typeof order !== 'object')
       throw new TypeError(JSON.stringify({name: 'getOrder Error', message: 'undefined order', path, file}))
-    }
     orderObj = order
   })
   return orderObj

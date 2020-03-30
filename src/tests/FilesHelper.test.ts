@@ -76,7 +76,7 @@ describe('Testing FilesHelper.ts with push event...', () => {
         locations: {
           template: '/path/test',
           mapping: '/path/mapping',
-          order: `${process.env.GITHUB_WORKSPACE}/.github/actions/integration/workspace/simple/order/simple.yaml`
+          order: `/.github/actions/integration/workspace/simple/order/simple.yaml`
         },
         order: false,
         nested: true
@@ -226,7 +226,7 @@ describe('Testing FilesHelper.ts with push event...', () => {
    */
   describe('...with function getOrder...', () => {
     it('...works as expected...', () => {
-      const order = require('../FilesHelper').getOrder(`${process.env.GITHUB_WORKSPACE}/.github/actions/integration/workspace/simple/order/simple.yaml`)
+      const order = require('../FilesHelper').getOrder(`/.github/actions/integration/workspace/simple/order/simple.yaml`)
       expect(order).toStrictEqual({
         commands: {
           delete: 'simple',
@@ -259,12 +259,12 @@ describe('Testing FilesHelper.ts with push event...', () => {
     })
     it('...throws error from safeLoad order file...', () => {
       expect(() =>
-        require('../FilesHelper').getOrder('/path/test/one.yaml')
+        require('../FilesHelper').getOrder('/path/test/undefined.yaml')
       ).toThrowError(
         JSON.stringify({
           name: 'getOrder Error',
           message: 'undefined order',
-          path: '/path/test/one.yaml',
+          path: '/path/test/undefined.yaml',
           file: ''
         })
       )

@@ -33,9 +33,9 @@ describe('Testing InputHelper.ts with push event...', () => {
       })
       expect(options).toStrictEqual({
         locations:{
-          order: `${env.envDefault.GITHUB_WORKSPACE}/infrastructure/order`,
-          mapping: `${env.envDefault.GITHUB_WORKSPACE}/infrastructure/mappings`,
-          template: `${env.envDefault.GITHUB_WORKSPACE}/infrastructure/templates`
+          order: `infrastructure/order`,
+          mapping: `infrastructure/mappings`,
+          template: `infrastructure/templates`
         },
         order: false,
         nested: true,
@@ -54,9 +54,6 @@ describe('Testing InputHelper.ts with push event...', () => {
     it.each(getTestEvents(p.getInputsInputs, 'push'))(
       '...sets %s input "%s" should be %p',
       (inputName, input, expected) => {
-        const oldEnv = {...env.envStart}
-        delete process.env.GITHUB_WORKSPACE
-        env = new Env({GITHUB_WORKSPACE: '/workspace'}, p.defInputs)
         env.updateInput({[inputName]: input})
         const {
           commands,
@@ -79,22 +76,21 @@ describe('Testing InputHelper.ts with push event...', () => {
             order:
             inputName === 'order_location'
               ? expected
-              : `/workspace/infrastructure/order`,
+              : `infrastructure/order`,
             mapping:
             inputName === 'mapping_location'
               ? expected
-              : `/workspace/infrastructure/mappings`,
+              : `infrastructure/mappings`,
             template:
             inputName === 'template_location'
               ? expected
-              : `/workspace/infrastructure/templates`
+              : `infrastructure/templates`
           },
           order: inputName === 'order' ? expected : false,
           nested: inputName === 'template_nested' ? expected : true,
           branch: inputName === 'branch' ? expected : 'master'
         })
         expect(getInput).toBeCalled()
-        process.env = {...oldEnv}
       }
     )
   })

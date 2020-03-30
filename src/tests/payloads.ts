@@ -88,18 +88,18 @@ export const getInputsInputs: TestInput[] = [
     events: 'all'
   },
   {
-    inputs: ['order_location', 'input/order', '/workspace/input/order'],
+    inputs: ['order_location', 'input/order', 'input/order'],
     events: 'all'
   },
   {
-    inputs: ['mapping_location', 'input/mappings', '/workspace/input/mappings'],
+    inputs: ['mapping_location', 'input/mappings', 'input/mappings'],
     events: 'all'
   },
   {
     inputs: [
       'template_location',
       'input/template',
-      '/workspace/input/template'
+      'input/template'
     ],
     events: 'all'
   },

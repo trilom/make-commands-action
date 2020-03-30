@@ -12,7 +12,6 @@ import {getErrorString} from './UtilsHelper'
 export function getInputs(): Inputs {
   const input = {} as Inputs
   const home = process.env.HOME
-  const workspace = process.env.GITHUB_WORKSPACE
   try {
     input.commands = {
       deploy: coreGetInput('deploy'),
@@ -47,9 +46,9 @@ export function getInputs(): Inputs {
     ]) as any
     input.options = {
       locations:{
-        order: resolve(`${workspace}/${coreGetInput('order_location')}`),
-        mapping: resolve(`${workspace}/${coreGetInput('mapping_location')}`),
-        template: resolve(`${workspace}/${coreGetInput('template_location')}`)
+        order: coreGetInput('order_location'),
+        mapping: coreGetInput('mapping_location'),
+        template: coreGetInput('template_location')
       },
       order: coreGetInput('order') === 'true' || false,
       nested: coreGetInput('template_nested') === 'true' || false,

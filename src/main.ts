@@ -1,7 +1,7 @@
 import {setFailed as coreSetFailed} from '@actions/core'
 import {errorMessage} from './UtilsHelper'
 import {getInputs} from './InputHelper'
-import {getProducts} from './FileHelper'
+import {getProducts} from './FilesHelper'
 
 export async function run(): Promise<void> {
   try {

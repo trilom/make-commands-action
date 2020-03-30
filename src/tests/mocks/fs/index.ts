@@ -13,8 +13,8 @@ const fsMock = {
   }),
   readFile: jest.fn((path, options, callback) =>  {
     if (path.includes('error')) callback('error', '')
-    else if (path.includes('undefined')) throw new Error(JSON.stringify({name: 'UndefinedError', status: '500'}))
-    callback('', readFile(path))
+    else if (path.includes('undefined')) callback('', readFile('undefined'))
+    return callback('', readFile(path))
   }),
   readdirSync: jest.fn(path => {
     let dir = []
@@ -50,7 +50,7 @@ function exists(path:string):boolean {
 
 function readFile(path:string):string {
   let file = ''
-  if (path.includes(`${process.env.GITHUB_WORKSPACE}`))
+  if (path.includes(`${process.env.GITHUB_WORKSPACE}`) || path.includes('simple/mappings/simple.yaml'))
     file = jest.requireActual('fs').readFileSync(path, 'utf8')
   else if (path.includes('order')) file = 'YAML' // return order file
   else if (
@@ -65,7 +65,7 @@ function readFile(path:string):string {
       'test2/test1.yaml'
     ]) // return array of files
   else if (path.includes(`undef`))
-    throw new Error(JSON.stringify({name: 'UndefinedError', status: '500'}))
+    return ''
   else if (path.includes(`error`))
     throw new Error(JSON.stringify({name: 'PathError', status: '500'}))
   return file

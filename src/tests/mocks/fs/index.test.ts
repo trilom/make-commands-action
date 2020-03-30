@@ -45,11 +45,11 @@ describe('Testing FsMock object...', () => {
       )
     })
   })
-  it('...FsMock mocks readFile undefined error', async () => {
-    expect(() => fs.readFile('/undefined/', 'utf8', (e) => {
-      expect(e).toBe('undefined')
+  it('...FsMock mocks readFile path error', async () => {
+    expect(() => fs.readFile('/error/', 'utf8', (e) => {
+      expect(e).toBe('error')
     })).toThrowError(
-      new Error(JSON.stringify({name: 'UndefinedError', status: '500'}))
+      new Error(JSON.stringify({name: 'PathError', status: '500'}))
     )
   })
   it('...FsMock mocks readFileSync', async () => {
@@ -71,11 +71,8 @@ describe('Testing FsMock object...', () => {
     expect(file).toBe(
       '["test/test1.yaml","test/test2.yaml","test2/test1.yaml"]'
     )
-  })
-  it('...FsMock mocks readFileSync undefined error', async () => {
-    expect(() => fs.readFileSync('undef', 'b')).toThrowError(
-      new Error(JSON.stringify({name: 'UndefinedError', status: '500'}))
-    )
+    file = fs.readFileSync('/path/files', 'b')
+    expect(file).toBe('')
   })
   it('...FsMock mocks readFileSync path error', async () => {
     expect(() => fs.readFileSync('error', 'b')).toThrowError(
