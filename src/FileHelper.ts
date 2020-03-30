@@ -77,7 +77,9 @@ export function getProducts(files: InputFiles, options: InputOptions): Products 
       })
     }
   })
-  // console.log(products)
+  Object.keys(products).forEach(key => {
+    products[key].order = (options.order ? getOrder(options.locations.order) : false)
+  })
   return products
 }
 

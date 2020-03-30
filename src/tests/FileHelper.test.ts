@@ -75,14 +75,17 @@ describe('Testing FileHelper.ts with push event...', () => {
       const options = {
         locations: {
           template: '/path/test',
-          mapping: '/path/mapping'
+          mapping: '/path/mapping',
+          order: `${process.env.GITHUB_WORKSPACE}/.github/actions/integration/workspace/simple/order/simple.yaml`
         },
+        order: false,
         nested: true
       }
       let products = require('../FileHelper').getProducts(files, options)
       expect(products).toStrictEqual({ 
         test: {
           name: 'test',
+          order: false,
           mapping: {
             path: '/path/mapping/test.yaml',
             changed: false
@@ -95,6 +98,7 @@ describe('Testing FileHelper.ts with push event...', () => {
       expect(products).toStrictEqual({ 
         test: {
           name: 'test',
+          order: false,
           mapping: {
             path: '/path/mapping/test.yml',
             changed: true
@@ -107,6 +111,7 @@ describe('Testing FileHelper.ts with push event...', () => {
       expect(products).toStrictEqual({ 
         test: {
           name: 'test',
+          order: false,
           mapping: {
             path: '/path/mapping/test.yaml',
             changed: true
@@ -118,10 +123,40 @@ describe('Testing FileHelper.ts with push event...', () => {
       expect(products).toStrictEqual({ 
         test: {
           name: 'test',
+          order: false,
           mapping: {
             path: '/path/mapping/test.yml',
             changed: true
           }
+        }})
+      options.order = true
+      products = require('../FileHelper').getProducts(files, options)
+      expect(products).toStrictEqual({ 
+        test: {
+          name: 'test',
+          order: {
+            commands: {
+              delete: 'simple',
+              deploy: 'simple'
+            },
+            deploy: {
+              develop: ['email'],
+              master: [
+                'database',
+                'email',
+                [
+                  'web',
+                  'sso'
+                ]
+              ]
+            }
+          },
+          mapping: {
+            path: '/path/mapping/test.yaml',
+            changed: true
+          },
+          deploy: ['test1', 'test2', 'test3'],
+          delete: ['test3']
         }})
     })
   })
