@@ -91,14 +91,13 @@ export function getOrder (path: PathLike): Order {
   let orderObj:Order = {}
   readFile(resolve(path.toString()), 'utf8', (error, file) => {
     if (error)
-      throw new Error(JSON.stringify({name: 'getOrder Error', error, path, file}))
+      throw new Error(JSON.stringify({name: 'getOrder readFile Error', error, path, file}))
     const order = safeLoad(file) as Order
-    if (order === undefined)
-      throw new Error(JSON.stringify({name: 'getOrder Error', path, file}))
-    console.log(order)
+    if (typeof order !== 'object') {
+      throw new TypeError(JSON.stringify({name: 'getOrder Error', message: 'undefined order', path, file}))
+    }
     orderObj = order
   })
-  console.log(orderObj)
   return orderObj
 }
 

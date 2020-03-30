@@ -48,7 +48,7 @@ function exists(path:string):boolean {
 }
 
 function readFile(path:string):string {
-  let file = '1'
+  let file = ''
   if (path.includes('order')) file = 'YAML' // return order file
   if (
     path.includes(`files_added.json`) ||
@@ -63,6 +63,8 @@ function readFile(path:string):string {
     ]) // return array of files
   if (path.includes(`${process.env.GITHUB_WORKSPACE}`))
     file = jest.requireActual('fs').readFileSync(path, 'utf8')
+  if (path.includes('undefined'))
+    throw new Error(JSON.stringify({name: 'UndefinedError', status: '500'}))
   if (path.includes(`error`))
     throw new Error(JSON.stringify({name: 'PathError', status: '500'}))
   return file

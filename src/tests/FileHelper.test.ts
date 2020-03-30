@@ -130,15 +130,44 @@ describe('Testing FileHelper.ts with push event...', () => {
    */
   describe('...with function getOrder...', () => {
     it('...works as expected...', () => {
-      const order = require('../FileHelper').getOrder(`${process.env.GITHUB_WORKSPACE}/.github/workflows/push.yml`)
-      expect(order).toBe({})
+      const order = require('../FileHelper').getOrder(`${process.env.GITHUB_WORKSPACE}/.github/actions/integration/workspace/simple/order/simple.yaml`)
+      expect(order).toStrictEqual({
+        commands: {
+          delete: 'simple',
+          deploy: 'simple'
+        },
+        deploy: {
+          develop: ['email'],
+          master: [
+            'database',
+            'email',
+            [
+              'web',
+              'sso'
+            ]
+          ]
+        }
+      })
     })
-    it('...throws error parsing order file...', () => {
+    it('...throws error from readFile order file...', () => {
+      expect(() =>
+        require('../FileHelper').getOrder('/path/test/error.yaml')
+      ).toThrowError(
+        JSON.stringify({
+          name: 'getOrder readFile Error',
+          error: 'error',
+          path: '/path/test/error.yaml',
+          file: ''
+        })
+      )
+    })
+    it('...throws error from safeLoad order file...', () => {
       expect(() =>
         require('../FileHelper').getOrder('/path/test/one.yaml')
       ).toThrowError(
         JSON.stringify({
           name: 'getOrder Error',
+          message: 'undefined order',
           path: '/path/test/one.yaml',
           file: ''
         })
