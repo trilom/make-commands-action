@@ -1,5 +1,7 @@
 import {FsMock} from 'typings/FsMock'
 
+// const {readFile} = jest.requireActual('fs')
+
 const fsMock = {
   writeFileSync: jest.fn((path, data, options) => {
     if (path === 'error')
@@ -7,22 +9,11 @@ const fsMock = {
     // console.log(`fs.writeFileSync triggered with path: ${path} data: ${data} options: ${options}`)
   }),
   readFileSync: jest.fn((path, options) => {
-    let file = ''
-    if (path.includes('order')) file = 'YAML' // return order file
-    if (
-      path.includes(`files_added.json`) ||
-      path.includes(`files_modified.json`) ||
-      path.includes(`files_removed.json`) ||
-      path.includes('files.json')
-    )
-      file = JSON.stringify([
-        'test/test1.yaml',
-        'test/test2.yaml',
-        'test2/test1.yaml'
-      ]) // return array of files
-    if (path.includes(`error`))
-      throw new Error(JSON.stringify({name: 'PathError', status: '500'}))
-    return file
+    return readFile(path)
+  }),
+  readFile: jest.fn((path, options, callback) =>  {
+    if (path.includes('error')) callback('error', '')
+    callback('', readFile(path))
   }),
   readdirSync: jest.fn(path => {
     let dir = []
@@ -38,14 +29,41 @@ const fsMock = {
     return dir
   }),
   existsSync: jest.fn(path => {
-    if (path.includes(`false`)) return false
-    if (path.includes(`error`))
-      throw new Error(JSON.stringify({name: 'PathError', status: '500'}))
-    return true
-  })
+    return exists(path)
+  }),
+  exists: jest.fn((path, callback) => callback(exists(path)))
 }
 
 export function mock(): FsMock {
   jest.mock('fs', () => fsMock)
   return fsMock
+}
+
+function exists(path:string):boolean {
+  if (path.includes(`false`)) return false
+  if (path.includes(`existTest.yaml`)) return false
+  if (path.includes(`error`))
+    throw new Error(JSON.stringify({name: 'PathError', status: '500'}))
+  return true
+}
+
+function readFile(path:string):string {
+  let file = '1'
+  if (path.includes('order')) file = 'YAML' // return order file
+  if (
+    path.includes(`files_added.json`) ||
+    path.includes(`files_modified.json`) ||
+    path.includes(`files_removed.json`) ||
+    path.includes('files.json')
+  )
+    file = JSON.stringify([
+      'test/test1.yaml',
+      'test/test2.yaml',
+      'test2/test1.yaml'
+    ]) // return array of files
+  if (path.includes(`${process.env.GITHUB_WORKSPACE}`))
+    file = jest.requireActual('fs').readFileSync(path, 'utf8')
+  if (path.includes(`error`))
+    throw new Error(JSON.stringify({name: 'PathError', status: '500'}))
+  return file
 }

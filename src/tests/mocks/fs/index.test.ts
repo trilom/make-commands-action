@@ -20,6 +20,31 @@ describe('Testing FsMock object...', () => {
       new Error(JSON.stringify({name: 'PathError', status: '500'}))
     )
   })
+  it('...FsMock mocks readFile', () => {
+    fs.readFile('/order/', 'b', (err,data) => {
+      expect(data).toBe('YAML')
+    })
+    fs.readFile('/path/files_modified.json', 'b', (err,data) => {
+      expect(data).toBe(
+        '["test/test1.yaml","test/test2.yaml","test2/test1.yaml"]'
+      )
+    })
+    fs.readFile('/path/files_added.json', 'b', (err,data) => {
+      expect(data).toBe(
+        '["test/test1.yaml","test/test2.yaml","test2/test1.yaml"]'
+      )
+    })
+    fs.readFile('/path/files_removed.json', 'b', (err,data) => {
+      expect(data).toBe(
+        '["test/test1.yaml","test/test2.yaml","test2/test1.yaml"]'
+      )
+    })
+    fs.readFile('/path/files.json', 'b', (err,data) => {
+      expect(data).toBe(
+        '["test/test1.yaml","test/test2.yaml","test2/test1.yaml"]'
+      )
+    })
+  })
   it('...FsMock mocks readFileSync', async () => {
     let file = fs.readFileSync('/order/', 'b')
     expect(file).toBe('YAML')
@@ -72,6 +97,24 @@ describe('Testing FsMock object...', () => {
   })
   it('...FsMock mocks existsSync error', async () => {
     expect(() => fs.existsSync('/error/')).toThrowError(
+      new Error(JSON.stringify({name: 'PathError', status: '500'}))
+    )
+  })
+  it('...FsMock mocks exists', async () => {
+    fs.exists('/any/', (e) => {
+      expect(e).toBe(true)
+    })
+    fs.exists('/false/', (e) => {
+      expect(e).toBe(false)
+    })
+    fs.exists('/existTest.yaml', (e) => {
+      expect(e).toBe(false)
+    })
+  })
+  it('...FsMock mocks callback error', async () => {
+    expect(() => fs.exists('/error/', (e) => {
+      expect(e).toBe('/error/')
+    })).toThrowError(
       new Error(JSON.stringify({name: 'PathError', status: '500'}))
     )
   })

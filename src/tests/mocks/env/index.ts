@@ -43,7 +43,7 @@ export function getTestEvents(inputs: any, event: string): any[][] {
 export class Env {
   public envDefault: {[key: string]: string} = {
     GITHUB_TOKEN: 'EnvDefaultToken',
-    GITHUB_WORKSPACE: _resolve(__dirname, '../../workspace/github'),
+    GITHUB_WORKSPACE: _resolve(__dirname, '../../../..'),
     GITHUB_REPOSITORY: 'trilom/make-commands-action',
     GITHUB_ACTION: 'make-commands-action'
   }

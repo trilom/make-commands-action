@@ -1,20 +1,16 @@
 import {setFailed as coreSetFailed} from '@actions/core'
 import {errorMessage} from './UtilsHelper'
 import {getInputs} from './InputHelper'
+import {getProducts} from './FileHelper'
 
 export async function run(): Promise<void> {
   try {
     // get inputs
     const inputs = getInputs()
-    // create make commands and store in commands object
-
-    // create a list of products that have changed
-
-    // build the prefix and suffix lifecycle actions
-
-    // create make commands for templates
-
-    // combine all 'changes' arrays into 1 (stacks.json)
+    // get products and orders if necessary
+    const products = getProducts(inputs.files, inputs.options)
+    // turn products object into commands object
+    // print/output commands object
   } catch (error) {
     const pError = JSON.parse(error.message)
     coreSetFailed(errorMessage(pError.from, pError))
