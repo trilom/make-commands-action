@@ -2,7 +2,7 @@ import {Env, p, getTestEvents} from './mocks/env'
 
 let env: Env
 
-describe('Testing FileHelper.ts with push event...', () => {
+describe('Testing FilesHelper.ts with push event...', () => {
   beforeAll(() => {
     env = new Env({}, p.defInputs)
   })
@@ -16,14 +16,14 @@ describe('Testing FileHelper.ts with push event...', () => {
    */
   describe('...with function getFiles...', () => {
     it('...works as expected...', () => {
-      const files = require('../FileHelper').getFiles('/any/path', [
+      const files = require('../FilesHelper').getFiles('/any/path', [
         '/any/string'
       ])
       expect(files).toBe(files)
     })
     it('...throws error with bad path...', () => {
       expect(() =>
-        require('../FileHelper').getFiles('/bad/error', [])
+        require('../FilesHelper').getFiles('/bad/error', [])
       ).toThrowError(
         JSON.stringify({
           name: 'getFiles Error',
@@ -39,14 +39,14 @@ describe('Testing FileHelper.ts with push event...', () => {
    */
   describe('...with function parseTemplate...', () => {
     it('...works as expected...', () => {
-      let role = require('../FileHelper').parseTemplate('/path/test/one.yaml', true)
+      let role = require('../FilesHelper').parseTemplate('/path/test/one.yaml', true)
       expect(role).toStrictEqual({ product: 'test', name: 'one' })
-      role = require('../FileHelper').parseTemplate('/path/test/test2-two.yaml', false)
+      role = require('../FilesHelper').parseTemplate('/path/test/test2-two.yaml', false)
       expect(role).toStrictEqual({ product: 'test2', name: 'two' })
     })
     it('...throws error with bad template...', () => {
       expect(() =>
-        require('../FileHelper').parseTemplate(
+        require('../FilesHelper').parseTemplate(
           '/path/test/test2two.yaml',
           false
         )
@@ -81,7 +81,7 @@ describe('Testing FileHelper.ts with push event...', () => {
         order: false,
         nested: true
       }
-      let products = require('../FileHelper').getProducts(files, options)
+      let products = require('../FilesHelper').getProducts(files, options)
       expect(products).toStrictEqual({ 
         test: {
           name: 'test',
@@ -94,7 +94,7 @@ describe('Testing FileHelper.ts with push event...', () => {
           delete: ['test3']
         }})
       files.added.push('/path/mapping/test.yml')
-      products = require('../FileHelper').getProducts(files, options)
+      products = require('../FilesHelper').getProducts(files, options)
       expect(products).toStrictEqual({ 
         test: {
           name: 'test',
@@ -107,7 +107,7 @@ describe('Testing FileHelper.ts with push event...', () => {
           delete: ['test3']
         }})
       files.modified.push('/path/mapping/test.yaml')
-      products = require('../FileHelper').getProducts(files, options)
+      products = require('../FilesHelper').getProducts(files, options)
       expect(products).toStrictEqual({ 
         test: {
           name: 'test',
@@ -119,7 +119,7 @@ describe('Testing FileHelper.ts with push event...', () => {
           deploy: ['test1', 'test2', 'test3'],
           delete: ['test3']
         }})
-      products = require('../FileHelper').getProducts({added:['/path/mapping/test.yml']}, options)
+      products = require('../FilesHelper').getProducts({added:['/path/mapping/test.yml']}, options)
       expect(products).toStrictEqual({ 
         test: {
           name: 'test',
@@ -130,7 +130,7 @@ describe('Testing FileHelper.ts with push event...', () => {
           }
         }})
       options.order = true
-      products = require('../FileHelper').getProducts(files, options)
+      products = require('../FilesHelper').getProducts(files, options)
       expect(products).toStrictEqual({ 
         test: {
           name: 'test',
@@ -158,6 +158,67 @@ describe('Testing FileHelper.ts with push event...', () => {
           deploy: ['test1', 'test2', 'test3'],
           delete: ['test3']
         }})
+      const files2 = {
+        all: [...files.all, '/path/test2/test1.yaml', '/path/test2/test2.yaml', '/path/test2/test3.yaml', '/path/test2/test4.yaml'],
+        added: [...files.added, '/path/test2/test1.yaml', '/path/test2/test2.yaml', '/path/test2/test3.yaml'],
+        modified: [...files.modified, '/path/test2/test1.yaml', '/path/test2/test2.yaml', '/path/test2/test3.yaml'],
+        removed: [...files.removed, '/path/test2/test3.yaml']
+      }
+      products = require('../FilesHelper').getProducts(files2, options)
+      expect(products).toStrictEqual({ 
+        test: {
+          name: 'test',
+          order: {
+            commands: {
+              delete: 'simple',
+              deploy: 'simple'
+            },
+            deploy: {
+              develop: ['email'],
+              master: [
+                'database',
+                'email',
+                [
+                  'web',
+                  'sso'
+                ]
+              ]
+            }
+          },
+          mapping: {
+            path: '/path/mapping/test.yaml',
+            changed: true
+          },
+          deploy: ['test1', 'test2', 'test3'],
+          delete: ['test3']
+        },
+        test2: {
+          name: 'test2',
+          order: {
+            commands: {
+              delete: 'simple',
+              deploy: 'simple'
+            },
+            deploy: {
+              develop: ['email'],
+              master: [
+                'database',
+                'email',
+                [
+                  'web',
+                  'sso'
+                ]
+              ]
+            }
+          },
+          mapping: {
+            path: '/path/mapping/test2.yaml',
+            changed: false
+          },
+          deploy: ['test1', 'test2', 'test3'],
+          delete: ['test3']
+        }
+      })
     })
   })
   /**
@@ -165,7 +226,7 @@ describe('Testing FileHelper.ts with push event...', () => {
    */
   describe('...with function getOrder...', () => {
     it('...works as expected...', () => {
-      const order = require('../FileHelper').getOrder(`${process.env.GITHUB_WORKSPACE}/.github/actions/integration/workspace/simple/order/simple.yaml`)
+      const order = require('../FilesHelper').getOrder(`${process.env.GITHUB_WORKSPACE}/.github/actions/integration/workspace/simple/order/simple.yaml`)
       expect(order).toStrictEqual({
         commands: {
           delete: 'simple',
@@ -186,7 +247,7 @@ describe('Testing FileHelper.ts with push event...', () => {
     })
     it('...throws error from readFile order file...', () => {
       expect(() =>
-        require('../FileHelper').getOrder('/path/test/error.yaml')
+        require('../FilesHelper').getOrder('/path/test/error.yaml')
       ).toThrowError(
         JSON.stringify({
           name: 'getOrder readFile Error',
@@ -198,7 +259,7 @@ describe('Testing FileHelper.ts with push event...', () => {
     })
     it('...throws error from safeLoad order file...', () => {
       expect(() =>
-        require('../FileHelper').getOrder('/path/test/one.yaml')
+        require('../FilesHelper').getOrder('/path/test/one.yaml')
       ).toThrowError(
         JSON.stringify({
           name: 'getOrder Error',
@@ -214,17 +275,17 @@ describe('Testing FileHelper.ts with push event...', () => {
    */
   describe('...with function existFile...', () => {
     it('...works as expected...', () => {
-      let exist = require('../FileHelper').existFile('/path/test/one.yaml')
+      let exist = require('../FilesHelper').existFile('/path/test/one.yaml')
       expect(exist).toBe(true)
-      exist = require('../FileHelper').existFile('/path/test/false.yaml')
+      exist = require('../FilesHelper').existFile('/path/test/false.yaml')
       expect(exist).toBe(false)
-      let file = require('../FileHelper').existFile('/path/test/one', true, true)
+      let file = require('../FilesHelper').existFile('/path/test/one', true, true)
       expect(file).toBe('/path/test/one.yaml')
-      file = require('../FileHelper').existFile('/path/test/existTest', true, true)
+      file = require('../FilesHelper').existFile('/path/test/existTest', true, true)
       expect(file).toBe('/path/test/existTest.yml')
-      file = require('../FileHelper').existFile('/path/test/one.yaml', false, true) 
+      file = require('../FilesHelper').existFile('/path/test/one.yaml', false, true) 
       expect(file).toBe('/path/test/one.yaml')
-      exist = require('../FileHelper').existFile('/path/test/one', true) 
+      exist = require('../FilesHelper').existFile('/path/test/one', true) 
       expect(exist).toBe(true)
     })
   })

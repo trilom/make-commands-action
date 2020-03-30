@@ -1,7 +1,7 @@
 import {getInput as coreGetInput} from '@actions/core'
 import {resolve} from 'path'
 import {Inputs} from 'typings/Inputs'
-import {getFiles} from './FileHelper'
+import {getFiles} from './FilesHelper'
 import {getErrorString} from './UtilsHelper'
 
 /**
