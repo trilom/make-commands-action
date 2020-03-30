@@ -12,6 +12,15 @@ describe('Testing main.ts...', () => {
         {},
         {
           ...p.defInputs,
+          template_location: '/path/test',
+          mapping_location: `/.github/actions/integration/workspace/simple/mappings/simple.yaml`,
+          order_location: `/.github/actions/integration/workspace/simple/order/simple.yaml`,
+          order: 'true',
+          template_nested: 'true',
+          files: JSON.stringify(['/path/test/test1.yaml', '/path/test/test2.yaml', '/path/test/test3.yaml', '/path/test/test4.yaml']),
+          files_added: JSON.stringify(['/path/test/test1.yaml', '/path/test/test2.yaml', '/path/test/test3.yaml']),
+          files_modified: JSON.stringify(['/path/test/test1.yaml', '/path/test/test2.yaml', '/path/test/test3.yaml']),
+          files_removed: JSON.stringify(['/path/test/test3.yaml']),
           mock: 'true'
         }
       )
@@ -21,11 +30,15 @@ describe('Testing main.ts...', () => {
       jest.resetModules()
       jest.unmock('@actions/core')
       jest.unmock('../InputHelper')
+      jest.unmock('../FilesHelper')
     })
-    it('...mocked', async () => {
+    it('...mocked...', async () => {
+      // const readFileSync = jest.requireActual('fs')
       const inputHelper = require('../InputHelper')
+      const filesHelper = require('../FilesHelper')
       await expect(require('../main').run()).resolves.toBe(undefined)
       expect(inputHelper).toBeDefined()
+      expect(filesHelper).toBeDefined()
     })
     it.each(getTestEvents(p.mainErrorInputs, 'push'))(
       '...throws error for mocked function %s...',
