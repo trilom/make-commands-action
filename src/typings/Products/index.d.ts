@@ -11,7 +11,7 @@ export interface Product {
     path: PathLike
     changed: boolean 
   }
-  order: Order | false
+  order: PathLike | false
   delete: string[]
   deploy: string[]
 }

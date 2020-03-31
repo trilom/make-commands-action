@@ -76,7 +76,7 @@ describe('Testing FilesHelper.ts with push event...', () => {
         locations: {
           template: '/path/test',
           mapping: '/path/mapping',
-          order: `/.github/actions/integration/workspace/simple/order/simple.yaml`
+          order: `/.github/actions/integration/workspace/simple/order`
         },
         order: false,
         nested: true
@@ -134,23 +134,7 @@ describe('Testing FilesHelper.ts with push event...', () => {
       expect(products).toStrictEqual({ 
         test: {
           name: 'test',
-          order: {
-            commands: {
-              delete: 'simple',
-              deploy: 'simple'
-            },
-            deploy: {
-              develop: ['email'],
-              master: [
-                'database',
-                'email',
-                [
-                  'web',
-                  'sso'
-                ]
-              ]
-            }
-          },
+          order: '/.github/actions/integration/workspace/simple/order/test.yaml',
           mapping: {
             path: '/path/mapping/test.yaml',
             changed: true
@@ -168,23 +152,7 @@ describe('Testing FilesHelper.ts with push event...', () => {
       expect(products).toStrictEqual({ 
         test: {
           name: 'test',
-          order: {
-            commands: {
-              delete: 'simple',
-              deploy: 'simple'
-            },
-            deploy: {
-              develop: ['email'],
-              master: [
-                'database',
-                'email',
-                [
-                  'web',
-                  'sso'
-                ]
-              ]
-            }
-          },
+          order: '/.github/actions/integration/workspace/simple/order/test.yaml',
           mapping: {
             path: '/path/mapping/test.yaml',
             changed: true
@@ -194,23 +162,7 @@ describe('Testing FilesHelper.ts with push event...', () => {
         },
         test2: {
           name: 'test2',
-          order: {
-            commands: {
-              delete: 'simple',
-              deploy: 'simple'
-            },
-            deploy: {
-              develop: ['email'],
-              master: [
-                'database',
-                'email',
-                [
-                  'web',
-                  'sso'
-                ]
-              ]
-            }
-          },
+          order: '/.github/actions/integration/workspace/simple/order/test2.yaml',
           mapping: {
             path: '/path/mapping/test2.yaml',
             changed: false

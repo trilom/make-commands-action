@@ -142,6 +142,7 @@ _Optional_ - `string` - **''**
 
 #### deploy and delete string replacements
 
+- **{{WORKSPACE}}** for the path to the workspace. `/home/runner/make-commands-action`
 - **{{PATH}}** for the relative path of the file. `infrastructure/templates/facebook/database.yaml`
 - **{{FULLPATH}}** for the path of the file. `/home/runner/make-commands-action/infrastructure/templates/facebook/database.yaml`
 - **{{FILE}}** for the name of the file without extension. **template_location**/facebook-database.yaml would return `facebook-database`

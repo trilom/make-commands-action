@@ -78,7 +78,7 @@ export function getProducts(files: InputFiles, options: InputOptions): Products 
     }
   })
   Object.keys(products).forEach(key => {
-    products[key].order = (options.order ? getOrder(options.locations.order) : false)
+    products[key].order = options.order ? existFile(resolve(`${options.locations.order}/${key}`), true, true).toString() : false
   })
   return products
 }

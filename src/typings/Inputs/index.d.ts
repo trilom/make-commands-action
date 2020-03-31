@@ -1,14 +1,14 @@
 import {PathLike} from 'fs'
 
 export interface Inputs {
-  commands?: InputCommands
+  commands: InputCommands
   files: InputFiles
   options: InputOptions
 }
 
 export interface InputCommands {
-  deploy?: string
-  delete?: string
+  deploy: string
+  delete: string
 }
 export interface InputFiles {
   [key:string]: PathLike[]
