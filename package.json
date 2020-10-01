@@ -37,7 +37,7 @@
   "homepage": "https://github.com/trilom/make-commands-action#README",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.3",
+    "@actions/core": "^1.2.6",
     "js-yaml": "^3.13.1",
     "lodash.isequal": "^4.5.0",
     "lodash.union": "^4.6.0",
