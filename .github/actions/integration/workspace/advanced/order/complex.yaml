@@ -1,0 +1,31 @@
+commands:
+  delete:
+    default: 'make delete role={{ROLE}} product={{PRODUCT}}'
+    master: 'make notify user=trilom'
+    prefix:
+      master: 'make delete role={{ROLE}}'
+  deploy:
+    default: 'make deploy template={{PRODUCT}}-{{ROLE}} env={{BRANCH}}'
+    suffix:
+      master: 'make create role={{ROLE}}'
+  validate: 'make validate template={{PRODUCT}}-{{ROLE}} env={{BRANCH}}'
+  wait: 'make wait template={{PRODUCT}}-{{ROLE}} env={{BRANCH}}'
+prefix:
+  master:
+    -
+      - role: database
+        action: delete
+deploy:
+  master:
+    - database
+    - email
+    -
+      - web
+      - sso
+  develop:
+    - web
+suffix:
+  master:
+    -
+      - role: database
+        action: deploy

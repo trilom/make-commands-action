@@ -1,0 +1,16 @@
+[
+    {
+        "command": "make deploy template=complex-database env=master",
+        "waitCommand": "make wait template=complex-database env=master"
+    },
+    [
+        {
+            "command": "make deploy template=complex-web env=master",
+            "waitCommand": "make wait template=complex-web env=master"
+        },
+        {
+            "command": "make deploy template=complex-sso env=master",
+            "waitCommand": "make wait template=complex-sso env=master"
+        }
+    ]
+]

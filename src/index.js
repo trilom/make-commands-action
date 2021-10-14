@@ -29,7 +29,7 @@ if ( env === undefined ) {
 try {
     modified = Array.from(JSON.parse(fs.readFileSync(`${home}/files_modified.json`, 'utf8').toString()));
     added = Array.from(JSON.parse(fs.readFileSync(`${home}/files_added.json`, 'utf8').toString()));
-    remove = Array.from(JSON.parse(fs.readFileSync(`${home}/files_deleted.json`, 'utf8').toString()));
+    remove = Array.from(JSON.parse(fs.readFileSync(`${home}/files_removed.json`, 'utf8').toString()));
 } catch (error) {
     log(error.message, 'error')
     core.setFailed(`Couldn't load necessary files from files-changes-action ${error.message}`);
@@ -575,7 +575,7 @@ try {
  * inputs:
  *      env - string - no requirements, it should match to env's defined in templates/mappings/order files
  *      files_added - [strings] - should be output from GH action listing files added with this action.
- *      files_deleted - [strings] - should be output from GH action listing files deleted with this action.
+ *      files_removed - [strings] - should be output from GH action listing files removed with this action.
  *      files_modified - [strings] - should be output from GH action listing files modified with this action.
  *          check json above to make sure everything is [strings]
  *
@@ -594,7 +594,7 @@ try {
  *
  *      check logic:
  *          given output:
- *              delete_changes: all template names should match a string in the files_deleted array AND template should map to an ORDER for env (intent to deploy)
+ *              delete_changes: all template names should match a string in the files_removed array AND template should map to an ORDER for env (intent to deploy)
  *              deploy_changes: all template names should match a string in either files_added or files modified array AND template should map to an ORDER for env
  *              prefix_changes: all template names should match a string({order_file_name}-{any 'role' from nested obj in env})
  *              suffix_changes: all template names should match a string({order_file_name}-{any 'role' from nested obj in env})

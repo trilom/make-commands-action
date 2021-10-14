@@ -1,0 +1,6 @@
+[
+    {
+        "command": "simple",
+        "waitCommand": "simple"
+    }
+]

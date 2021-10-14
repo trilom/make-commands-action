@@ -1,0 +1,42 @@
+{
+    "delete": [
+        {
+            "command": "make notify user=trilom",
+            "waitCommand": "make wait template=complex-email env=master"
+        }
+    ],
+    "deploy": [
+        {
+            "command": "make deploy template=complex-database env=master",
+            "waitCommand": "make wait template=complex-database env=master"
+        },
+        [
+            {
+                "command": "make deploy template=complex-web env=master",
+                "waitCommand": "make wait template=complex-web env=master"
+            },
+            {
+                "command": "make deploy template=complex-sso env=master",
+                "waitCommand": "make wait template=complex-sso env=master"
+            }
+        ]
+    ],
+    "prefix": [
+        {
+            "command": "make delete role=database",
+            "waitCommand": "make wait template=complex-database env=master"
+        }
+    ],
+    "suffix": [
+        {
+            "command": "make create role=database",
+            "waitCommand": "make wait template=complex-database env=master"
+        }
+    ],
+    "validate": [
+        "make validate template=complex-email env=master",
+        "make validate template=complex-database env=master",
+        "make validate template=complex-web env=master",
+        "make validate template=complex-sso env=master"
+    ]
+}

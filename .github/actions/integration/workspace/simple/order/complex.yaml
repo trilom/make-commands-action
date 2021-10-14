@@ -1,0 +1,10 @@
+commands:
+  delete: make delete ROLE={{ROLE}}
+  deploy: make deploy ENV={{BRANCH}} TEMPLATE={{PATH}}
+deploy:
+  master:
+    - database
+    - email
+    -
+      - web
+      - sso

@@ -1,29 +1,121 @@
-
-
-name: 'Sort Deploy'
 name: make-commands-action
 author: 'Bryan Killian <me@trilom.org>'
-description: 'This takes 4 inputs, a list of files deleted, modified, and added as well as an environment.  It will output ordered make commands to be ran for deployments of cloudformation stacks.'
+description: |
+  This takes 4 inputs, a JSON array of files removed, modified, and added.  
+  It will output ordered make commands to be ran for deployments.'
 runs:
   using: 'node12'
   main:  'dist/index.js'
 branding:
   icon:  'italic'
   color: 'gray-dark'
+outputs:
+  output:
+    description: |
+      With order set to FALSE (default) it is an object with properties deploy 
+      and delete which are arrays of strings or arrays of arrays of strings.  
+      With order set to TRUE this can be an object with properties deploy, delete,
+      prefix, suffix, and validate which are array of strings or command objects 
+      (command and waitCommand) or an array of array of strings or command objects.
+      Validate is an array of strings.  
+      This is also an object at {HOME}/output.json
+  deploy:
+    description: |
+      With order set to FALSE (default) it is an array of strings or array of arrays of strings.  
+      With order set to TRUE this can be an array of strings or command objects 
+      (command and waitCommand) or an array of array of strings or command objects.
+      This is also an object at {HOME}/deploy.json
+  delete:
+    description: |
+      With order set to FALSE (default) it is an array of strings or array of arrays of strings.  
+      With order set to TRUE this can be an array of strings or command objects 
+      (command and waitCommand) or an array of array of strings or command objects.
+      This is also an object at {HOME}/delete.json
+  prefix:
+    description: |
+      With order set to TRUE this can be an array of strings or command objects 
+      (command and waitCommand) or an array of array of strings or command objects.
+      This is also an object at {HOME}/prefix.json
+  suffix:
+    description: |
+      With order set to TRUE this can be an array of strings or command objects 
+      (command and waitCommand) or an array of array of strings or command objects.
+      This is also an object at {HOME}/suffix.json
+  validate:
+    description: |
+      With order set to TRUE this can be an array of strings.
+      This is also an object at {HOME}/validate.json
 inputs:
+  deploy:
+    description: |
+      Command to run for all deploys. This is with files corresponding to files_added and 
+      files_modified inputs. You can choose string replacements to make your command. 
+      ex make deploy ENV={{BRANCH}} TEMPLATE={{PATH}} will get you 
+      make deploy ENV=master TEMPLATE=infrastructure/templates/facebook/database.yaml 
+      if that file is in files_added or files_modified.
+    required: true
+    default: ''
+  delete:
+    description: |
+      Command to run for all deletes. This is with files corresponding to files_removed input. 
+      You can choose string replacements to make your command. ex make delete ROLE={{ROLE}} 
+      will get you make delete ROLE=database if that file is in files_deleted.
+    required: true
+    default: ''
   files:
-    description: 'Array of names all new, updated, and deleted files'
+    description: 'JSON array of names all new, updated, and removed files'
     required: true
     default: '[]'
   files_added:
-    description: 'Array of the newly created files'
+    description: 'JSON array of the newly created files'
     required: true
     default: '[]'
   files_modified:
-    description: 'Array of the updated files'
+    description: 'JSON array of the updated files'
     required: true
     default: '[]'
-  files_deleted:
-    description: 'Array of the deleted files'
+  files_removed:
+    description: 'JSON array of the removed files'
     required: true
     default: '[]'
+  order:
+    description: |
+      To use order files default is false, assumes default path of infrastructure/order 
+      (set by order_location input) for yaml/yml files.
+    required: true
+    default: 'false'
+  order_location:
+    description: |
+      Path to order files. Default is infrastructure/order this references the root of 
+      the repository for the action is where the infrastructure/order directory should 
+      be located which should contain yaml/yml files describing deployment order.
+    required: true
+    default: 'infrastructure/order'
+  mapping_location:
+    description: |
+      Path to mapping files. Default is infrastructure/mappings this references the 
+      root of the repository for the action where the infrastructure/mappings 
+      directory should be located which should contain yaml/yml files describing 
+      deployment mappings.
+    required: true
+    default: 'infrastructure/mappings'
+  template_location:
+    description: |
+      Path to template files. Default is infrastructure/templates this references 
+      the root of the repository for the action where the infrastructure/templates 
+      directory should be located which should contain yaml/yml files describing 
+      infrastructure templates to deploy.
+    required: true
+    default: 'infrastructure/templates'
+  template_nested:
+    description: |
+      To use nested template paths default is true. By default we assume a 
+      template is located in template_location/PRODUCT/ROLE.yml With this 
+      enabled we will assume templates are located at template_location/PRODUCT-ROLE.yml instead
+    required: true
+    default: 'true'
+  branch:
+    description: |
+      To use a branch other than the branch that was triggered with this action.
+    required: true
+    default: ${{ github.ref }}

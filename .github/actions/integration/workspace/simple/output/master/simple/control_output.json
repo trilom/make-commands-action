@@ -1,0 +1,12 @@
+{
+    "delete": [
+        "simple"
+    ],
+    "deploy": [
+        "simple",
+        [
+            "simple",
+            "simple"
+        ]
+    ]
+}

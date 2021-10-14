@@ -1,0 +1,6 @@
+[
+    {
+        "command": "make create role=database",
+        "waitCommand": "make wait template=complex-database env=master"
+    }
+]

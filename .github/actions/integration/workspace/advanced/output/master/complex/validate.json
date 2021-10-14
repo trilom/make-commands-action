@@ -1,0 +1,6 @@
+[
+    "make validate template=complex-email env=master",
+    "make validate template=complex-database env=master",
+    "make validate template=complex-web env=master",
+    "make validate template=complex-sso env=master"
+]

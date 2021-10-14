@@ -1,0 +1,12 @@
+commands:
+  delete: 'simple'
+  deploy: 'simple'
+deploy:
+  master:
+    - database
+    - email
+    -
+      - web
+      - sso
+  develop:
+    - email

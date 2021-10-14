@@ -1,0 +1,11 @@
+{
+    "deploy": [
+        {
+            "command": "simple",
+            "waitCommand": "simple"
+        }
+    ],
+    "validate": [
+        "simple"
+    ]
+}

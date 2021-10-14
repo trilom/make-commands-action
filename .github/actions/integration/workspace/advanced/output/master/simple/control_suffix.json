@@ -1,0 +1,6 @@
+[
+    {
+        "command": "simple-suffix-master",
+        "waitCommand": "simple"
+    }
+]

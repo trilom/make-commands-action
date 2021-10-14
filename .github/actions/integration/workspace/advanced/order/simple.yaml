@@ -1,0 +1,31 @@
+commands:
+  delete:
+    default: 'simple'
+    master: 'simple-master'
+    prefix:
+      master: 'simple-prefix-master'
+  deploy:
+    default: 'simple'
+    suffix:
+      master: 'simple-suffix-master'
+  validate: 'simple'
+  wait: 'simple'
+prefix:
+  master:
+    -
+      - role: database
+        action: delete
+deploy:
+  master:
+    - database
+    - email
+    -
+      - web
+      - sso
+  develop:
+    - web
+suffix:
+  master:
+    -
+      - role: database
+        action: deploy

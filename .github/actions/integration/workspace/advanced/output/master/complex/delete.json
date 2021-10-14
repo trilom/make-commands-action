@@ -1,0 +1,6 @@
+[
+    {
+        "command": "make notify user=trilom",
+        "waitCommand": "make wait template=complex-email env=master"
+    }
+]

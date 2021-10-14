@@ -1,0 +1,116 @@
+name: Integration Tests
+on:
+  issue_comment:
+    types: 
+      - created
+  schedule:
+    - cron: '0 0 * * *'
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+jobs:
+  i:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # complex order file (without prefix/suffix and wait/validate) or simple (only deploy/delete)
+        order: ['advanced', 'simple', 'false']
+        # this will be a simple (string) or complex (string with replacements)
+        command: ['simple', 'complex']
+        # nested template location (PRODUCT/ROLE.yaml) or file inferred (PRODUCT-ROLE.yaml)
+        template_nested: ['true', 'false']
+        # branch (master) or other (develop)
+        branch: ['master', 'develop']
+    if: >-
+      ( startsWith(github.head_ref, '1.') 
+        || startsWith(github.head_ref, '2.')) 
+      || 
+      contains(github.event.head_commit.message, 'Release merge from')
+      ||
+      github.event_name == 'schedule'
+      || ( 
+        github.event_name == 'issue_comment'
+        && github.event.issue.number != '' 
+        && contains(github.event.comment.body, '/integration') 
+        && github.actor == 'trilom')
+    steps:
+      # get pr number if exists
+      - id: pr
+        if: github.event_name == 'issue_comment'
+        run: |
+          pr=$(echo "${{github.event.comment.body}}" | sed 's|.*/integration||') &&
+          echo "::set-output name=pr::${pr}"
+        env:
+          comment: ${{ toJson(github) }}
+      # use pr number from integration command
+      - uses: actions/checkout@v2
+        if: github.event_name == 'issue_comment' && steps.pr.outputs.pr != ''
+        with:
+          ref: ${{format('refs/pull/{0}/head', steps.pr.outputs.pr )}}
+      # use the issue number if pr is blank 
+      - uses: actions/checkout@v2
+        if: github.event_name == 'issue_comment' && steps.pr.outputs.pr == '' && github.event.issue.pull_request != '' 
+        with:
+          ref: ${{format('refs/pull/{0}/head', github.event.issue.number )}}
+      - name: fail if no PR number and issue comment
+        if: github.event_name == 'issue_comment' && steps.pr.outputs.pr == '' && github.event.issue.pull_request == '' 
+        run: |
+          echo "Please provide a PR number to use like /integration13 for PR# 13."
+          exit 1
+      - uses: actions/checkout@v2
+        if: github.event_name != 'issue_comment'
+      - run: yarn build-package  
+      - run: |
+          echo "::set-output name=files::$(jq -r '.' ${file_path}/files.json)"
+          echo "::set-output name=files_added::$(jq -r '.' ${file_path}/files_added.json)"
+          echo "::set-output name=files_modified::$(jq -r '.' ${file_path}/files_modified.json)"
+          echo "::set-output name=files_removed::$(jq -r '.' ${file_path}/files_removed.json)"
+          if [ "${order}" == "false" ]; then
+            echo "::set-output name=order::false"
+          elif [ "${order}" == "simple" ]; then
+            echo "::set-output name=order::true"
+          elif [ "${order}" == "advanced" ]; then
+            echo "::set-output name=order::true"
+          fi
+          if [ "${command}" == "simple" ]; then
+            echo "::set-output name=command::simple"
+          elif [ "${command}" == "complex" ]; then
+            echo "::set-output name=command::make PRODUCT={{PRODUCT}} ROLE={{ROLE}}"
+          fi
+        id: files
+        working-directory: .github/actions/integration
+        env:
+          file_path: ${{ format('workspace/{0}/events/{1}', matrix.order, matrix.command) }}
+      - uses: ./
+        id: obj
+        with:
+          files: ${{ steps.files.outputs.files }}
+          files_added: ${{ steps.files.outputs.files_added }}
+          files_modified: ${{ steps.files.outputs.files_modified }}
+          files_removed: ${{ steps.files.outputs.files_removed }}
+          deploy: ${{ steps.files.outputs.command }}
+          delete: ${{ steps.files.outputs.command }}
+          order_location: ${{ format('.github/actions/integration/workspace/{0}/order', matrix.order) }}
+          mapping_location: ${{ format('.github/actions/integration/workspace/{0}/mappings', matrix.order) }}
+          template_location: ${{ format('.github/actions/integration/workspace/{0}/templates', matrix.order) }}
+          order: ${{ steps.files.outputs.order }}
+          template_nested: ${{ matrix.template_nested }}
+          branch: ${{ matrix.branch }}
+      - run: |
+          mv $HOME/*.json .
+          chmod +x test.sh && ./test.sh
+        working-directory: .github/actions/integration
+        if: success()
+        env:
+          output: ${{ steps.obj.outputs.output }}
+          deploy: ${{ steps.obj.outputs.deploy }}
+          delete: ${{ steps.obj.outputs.delete }}
+          prefix: ${{ steps.obj.outputs.prefix }}
+          suffix: ${{ steps.obj.outputs.suffix }}
+          validate: ${{ steps.obj.outputs.validate }}
+          # order
+          order: ${{ matrix.order }}
+          command: ${{ matrix.command }}
+          branch: ${{ matrix.branch }
