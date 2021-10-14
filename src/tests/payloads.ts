@@ -148,7 +148,32 @@ export const errorMessageInputs: TestInput[] = [
 /**
  * main Test inputs
  */
-export const mainInputs: TestInput[] = [
-  {inputs: ['main', 'main', 'main'], events: 'all'}
+export const templateNestedInputs = [
+  ['true', 'true'],
+  ['false', 'false']
+]
+export const orderInputs = [
+  ['advanced', 'advanced'],
+  ['simple', 'simple'],
+  ['false', 'false']
+]
+export const commandInputs = [
+  ['simple', 'simple'],
+  ['complex', 'complex']
+]
+export const branchInputs = [
+  ['master', 'master'],
+  ['develop', 'develop']
+]
+export const fileOutputs = [
+  ['output', 'output'],
+  ['deploy', 'deploy'],
+  ['delete', 'delete'],
+  ['prefix', 'prefix'],
+  ['suffix', 'suffix'],
+  ['validate', 'validate']
+]
+export const mainInputs = [
+  ['main', 'main', 'main'],
 ]
 export {errorMessageInputs as mainErrorInputs}

@@ -32,11 +32,10 @@ export function orderCommands(product:Product, commands:Commands):Commands {
   return {} as Commands
 }
 
-export function getCommands(products:Products, order:boolean, input:InputCommands):Commands {
-  const orderActions = order ? ['deploy', 'delete', 'prefix', 'suffix', 'validate'] : ['deploy', 'delete']
+export function getCommands(products:Products):Commands {
   const commands = {} as Commands
   Object.keys(products).forEach(key => { // for each product (products[key])
-    orderActions.forEach(action=> { // for each action (action)
+    ['deploy', 'delete'].forEach(action=> { // for each action (action)
       if (action === 'deploy' || action === 'delete' ) { // no order or order
         const actions = commands[action]
         if (!Object.keys(commands).includes(action)) { // action undefined
@@ -44,8 +43,10 @@ export function getCommands(products:Products, order:boolean, input:InputCommand
         } else { // action defined
           products[key][action].forEach((cmd, i) => { // for each command in products[key][action]
             if (actions.length-1 >= i) { // current length-1 >= incoming length
+              // USE SET because IT AVOIDS DUPLICATE VALUES
               if (Array.isArray(actions[i]) && !actions[i].includes(cmd)) { // current[i] is array and cmd doesnt exist
                 actions[i] = actions[i].concat(cmd)
+              // USE SET because IT AVOIDS DUPLICATE VALUES
               } else if (typeof actions[i] === 'string' && actions[i] !== cmd) {
                 actions[i] = [actions[i], cmd]
               }
@@ -53,13 +54,50 @@ export function getCommands(products:Products, order:boolean, input:InputCommand
               actions.push(cmd)
             }
           })
-          // after mapping added deploy/delete commands
         }
-      } else if (action === 'validate' || action === 'prefix'|| action === 'suffix' ) { // order file
-        // deal with prefix/suffix/validate
-        const current = commands[action]
       }
     })
   })
   return commands
 }
+
+class Wheel {
+  size:number
+  position:string
+}
+
+class Wheel {
+  size =5,
+  position:string
+}
+class Car {
+  carName:string = 'default'
+  wheels:
+}
+
+// cars have wheels, windows, doors, engine, steering wheel, seats, trunk, radio, AC, (battery for electric cars)
+const carName = 'default'
+const wheel1 = 20
+const wheel2 = 20
+const wheel3 = 20
+const wheel4 = 20
+const door1 = true
+const door2 = true
+if (carName === "twodoorcar") {
+  const door3 = false
+  const door4 = false
+} else {
+  const door3 = true
+  const door4 = true
+}
+
+
+
+
+const array1 = [1,2,3,4,5]
+const array2 = [5,6,7,8,9]
+
+const newArray = array1.concat(array2)
+
+
+
